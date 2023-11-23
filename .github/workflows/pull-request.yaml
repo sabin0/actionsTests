@@ -19,6 +19,8 @@ jobs:
           BRANCH_NAME="main-backMerge-${COMMIT_HASH}"
           git checkout -b $BRANCH_NAME
           git push origin $BRANCH_NAME
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create pull request
         run: |
