@@ -11,8 +11,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: pull-request
         run: |
-          gh codespace create -b main-back-Merge
-          gh pr create -B develop -H main-back-Merge -t "Main backMerge" -b "sync main down to develop with updated permissions" --reviewer testOrgSa/myTeam
+          gh pr create -B develop -H main -t "Main backMerge" -b "sync main down to develop with updated permissions" --reviewer testOrgSa/myTeam
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          
