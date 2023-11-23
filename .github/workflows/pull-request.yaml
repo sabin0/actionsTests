@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Set up Git
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
 
       - name: Create and checkout new branch
         run: |
@@ -19,8 +24,6 @@ jobs:
           BRANCH_NAME="main-backMerge-${COMMIT_HASH}"
           git checkout -b $BRANCH_NAME
           git push origin $BRANCH_NAME
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create pull request
         run: |
