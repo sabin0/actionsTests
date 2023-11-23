@@ -1,14 +1,18 @@
+name: Auto Create PR
+
 on:
   push:
     branches:
       - main
-permissions:
-  pull-requests: write
+
 jobs:
-  pull-request:
+  create-pr:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Create and checkout new branch
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
@@ -21,4 +25,3 @@ jobs:
           gh pr create --base develop --head ${{ github.actor }}:main-backMerge-${COMMIT_HASH} --title "Merge from main to develop" --body "Automated PR from main to develop."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         
