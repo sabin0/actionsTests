@@ -9,12 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: pull-request
+      - name: Create and checkout new branch
         run: |
-          COMMIT_HASH=$(git rev-parse HEAD)
+          COMMIT_HASH=$(git rev-parse --short HEAD)
           BRANCH_NAME="main-backMerge-${COMMIT_HASH}"
-          git checkout -b ${BRANCH_NAME}
-          gh pr create -B develop -H ${BRANCH_NAME} -t "Main backMerge" -b "sync main down to develop with updated permissions"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+
+      - name: Create pull request
+        run: |
+          gh pr create --base develop --head ${{ github.actor }}:main-backMerge-${COMMIT_HASH} --title "Merge from main to develop" --body "Automated PR from main to develop."
         env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          
